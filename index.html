@@ -7,15 +7,23 @@
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
         
+		<link rel="stylesheet" href="lib/leaflet/leaflet.css">
+		<script src="lib/leaflet/leaflet.js"></script>
+		
 		<link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
-	
+	    
+	    <link rel="stylesheet" href="lib/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.css" />
+	    <script src="lib/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.js"></script>
+		
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
 		<!-- <link rel="stylesheet" href="css/MarkerCluster.css">
         <link rel="stylesheet" href="css/MarkerCluster.Default.css">
         <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/Control.OSMGeocoder.css">
-		<link rel="stylesheet" href="css/L.Control.Locate.min.css">
+		link rel="stylesheet" href="css/L.Control.Locate.min.css">
 		
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">-->
 		
@@ -51,6 +59,9 @@
 		 
 		<script src="data/Estaciones_MIO.js"></script> 
         <script src="data/Via_ferrea_1.js"></script>
+		
+		<script src="data/estaciones.js"></script> 
+		
         <script>
        
 	   var highlightLayer;
@@ -86,7 +97,7 @@
         var bounds_group = new L.featureGroup([]);
         
 		var wmsLayer = L.tileLayer.wms('http://ws-idesc.cali.gov.co:8081/geoserver/wms?service=WMS&version=1.1.0', {
-        layers: 'idesc:mc_barrios'
+        layers: 'idesc:mc_barrios'		
         }).addTo(map);
 		
 		var basemap0 = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -95,9 +106,48 @@
         });
         basemap0.addTo(map);
 		
-	    ////
-		//l.control.Layers(basemap0, wmsLayer).add(map);
-		//L.control.layers(baseMaps,{'<img src="legend/comunas_0.png"/>comunas':wmsLayer,'<img src="legend/layer_Red_nivelacion_1.png"/>red nivelacion':}).addTo(map);
+	    ////		
+		var basemaps = {Grayscale: L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', 
+		{
+			maxZoom: 18,
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		}),
+		
+		Streets: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+		{
+			maxZoom: 19,
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		})
+	    };
+
+//var mymap = L.map('mapid').setView([ 3.42648 , -76.5363028 ], 12);
+
+		var wmsLayer1 = L.tileLayer.wms('http://localhost/html5up-alpha/shp/comunas_cali.shp', {
+		layers: 'Clase10_sig3:vallell',
+		attribution: 'comunas',
+		format: 'image/png',
+		transparent: true
+		});
+
+	
+
+		//basemaps.Grayscale.addTo(map);
+		//wmsLayer1.addTo(map);
+	
+		
+
+	   
+	//groupedOverlays.addTo(map);
+	//L.control.groupedLayers(basemap0,groupedOverlays).addTo(map);
+    //L.control.Layers(groupedOverlays).addTo(map);
+	
+	
+	
+	 //L.control.Layers(basemap0,groupedOverlays ).add(map);   
+		
+     //L.control.groupedLayers(basemaps, groupedOverlays).addTo(mymap);
+		 
+		//L.control.layers(baseMaps,'<img src="legend/comunas_0.png"/>comunas':wmsLayer,'<img src="legend/layer_Red_nivelacion_1.png"/>red nivelacion':).addTo(map);
         /////
 		function setBounds() {
         }
@@ -146,7 +196,8 @@
             style: style_Via_ferrea_0_0,
         });
 		
-		
+		    bounds_group.addLayer(layer_Via_ferrea_0);
+            map.addLayer(layer_Via_ferrea_0);
 		
 		///////
             
