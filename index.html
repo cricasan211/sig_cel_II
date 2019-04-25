@@ -652,6 +652,12 @@
        L.control.scale({options: {position: 'bottomleft', maxWidth: 100, metric: true, imperial: false, updateWhenIdle: false}}).addTo(map);
         //stackLayers();
         //map.on('overlayadd', restackLayers);
+       
+        var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+           maxZoom: 20,
+          subdomains:['mt0','mt1','mt2','mt3']
+           });
+		   googleSat.addTo(map);
 
 ////////////////////////////////////////////////////////////
         var baseMaps = {
@@ -662,8 +668,9 @@
             "Red Control Geodesico": layer_Red_control_geodesico_2,
             "Red Nivelación": layer_Red_nivelacion_1,
             //"Vía férrea": layer_Via_ferrea_0, esta en src 3115, no sirve hay que pasarla a wgs84 
-			"MIO":json_EstacionesMIO0,
-			"Corregimiento": json_Corregimientos1JSON
+		"MIO":json_EstacionesMIO0,
+		"Corregimiento": json_Corregimientos1JSON,
+		"Satellite": googleSat
         };
         L.control.layers(null, baseMaps).addTo(map);
 		
