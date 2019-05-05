@@ -10,8 +10,6 @@
 		<link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
-		
-		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
 	
 		<!-- <link rel="stylesheet" href="css/MarkerCluster.css">
         <link rel="stylesheet" href="css/MarkerCluster.Default.css">
@@ -52,21 +50,12 @@
         <script src="data/Rios_4.js"></script>
 		 
 		<!--<script src="data/Estaciones_MIO.js"></script> 
-		<script src="data/estaciones.js"></script> 
-		-->
+		<script src="data/estaciones.js"></script> -->
         <script src="data/Via_ferrea_1.js"></script>
 		<script src="data/json_EstacionesMIO.js"></script>
 		<script src="data/json_Corregimientos1.js"></script>
-	 
+	
 		
-      <!--  <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
-	   <script src="https://maps.googleapis.com/maps/api/js?key=elAPIGeneradoporGoogle"> </script>
-	          <script src="leaflet-plugins-1.9.3\layer\tile\Google.js"></script>
-       
-        <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>-->
- 
-
-
         <script>
        
 	   var highlightLayer;
@@ -90,8 +79,7 @@
 		var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:1
         }).fitBounds([[3.35196794898,-76.5982657407],[3.44378472259,-76.4362521881]]);
-		
-		
+			
         var hash = new L.Hash(map);
         map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
         var measureControl = new L.Control.Measure({
@@ -113,16 +101,6 @@
         });
         basemap0.addTo(map);
 		
-		
-		////
-		
-      
-		//ggl.addTo (map);
-		
-		
-		
-		
-		
 	    ////
 		//l.control.Layers(basemap0, wmsLayer).add(map);
 		//L.control.layers(baseMaps,{'<img src="legend/comunas_0.png"/>comunas':wmsLayer,'<img src="legend/layer_Red_nivelacion_1.png"/>red nivelacion':}).addTo(map);
@@ -142,7 +120,7 @@
                 mouseover: highlightFeature,
             });
             var popupContent = '<table>\
-                     <tr>\
+                    <tr>\
                         <td colspan="2">' + (feature.properties['gid'] !== null ? Autolinker.link(String(feature.properties['gid'])) : '') + '</td>\
                     </tr>\
                     <tr>\
@@ -478,8 +456,7 @@
             }
         }
 
-			<!-- -->	
-		///////////////////////////////////////////////////////////
+		
 		function pop_Comunas_0(feature, layer) {
             layer.on({
                 mouseout: function(e) {
@@ -659,9 +636,9 @@
 
        map.locate({setView: true, maxZoom: 14});
 	   function onLocationFound(e) {
-            var radius = e.accuracy / 4;
+            var radius = e.accuracy / 2;
             L.marker(e.latlng).addTo(map)
-            .bindPopup("tu estas en un radio de" + radius + "m de este punto")
+            .bindPopup("tu estas en un radio de" + radius + "metros de este punto")
             .openPopup();
             L.circle(e.latlng, radius).addTo(map);
         }
@@ -673,15 +650,17 @@
        L.control.scale({options: {position: 'bottomleft', maxWidth: 100, metric: true, imperial: false, updateWhenIdle: false}}).addTo(map);
         //stackLayers();
         //map.on('overlayadd', restackLayers);
-
+       
         var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
            maxZoom: 20,
           subdomains:['mt0','mt1','mt2','mt3']
            });
 		   googleSat.addTo(map);
-         
-		 
-	
+		var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+           maxZoom: 20,
+          subdomains:['mt0','mt1','mt2','mt3']
+           });
+            googleHybrid.addTo(map);
 ////////////////////////////////////////////////////////////
         var baseMaps = {
             "Comunas": layer_Comunas_0,
@@ -691,9 +670,11 @@
             "Red Control Geodesico": layer_Red_control_geodesico_2,
             "Red Nivelación": layer_Red_nivelacion_1,
             //"Vía férrea": layer_Via_ferrea_0, esta en src 3115, no sirve hay que pasarla a wgs84 
-			"MIO":json_EstacionesMIO0,
-			"Corregimiento": json_Corregimientos1JSON,
-			"Satellite": googleSat
+		"MIO":json_EstacionesMIO0,
+		"Corregimiento": json_Corregimientos1JSON,
+		"Satellite": googleSat,
+		"Hibrido": googleHybrid
+		
         };
         L.control.layers(null, baseMaps).addTo(map);
 		
@@ -701,3 +682,4 @@
         </script>
     </body>
 </html>
+
