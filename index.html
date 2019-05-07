@@ -650,6 +650,19 @@
        L.control.scale({options: {position: 'bottomleft', maxWidth: 100, metric: true, imperial: false, updateWhenIdle: false}}).addTo(map);
         //stackLayers();
         //map.on('overlayadd', restackLayers);
+		
+	
+         var popup = L.popup();
+
+			function onMapClick(e) {
+    		popup
+        		.setLatLng(e.latlng)
+        		.setContent("Coordenadas WGS84): " + e.latlng.lng.toFixed(8) + " E, " + e.latlng.lat.toFixed(8) + " N")
+        		.openOn(map)
+			}
+			map.on('click', onMapClick);
+
+		
        
         var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
            maxZoom: 20,
